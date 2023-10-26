@@ -38,6 +38,9 @@ resource "aws_instance" "server" {
   ami               = var.aws_ami
   subnet_id         = var.subnet_id
 
+  # my iam instance profile
+  iam_instance_profile = aws_iam_instance_profile.iam_ec2.name
+
   tags = {
     Name = "for-devops-test"
   }

@@ -36,3 +36,11 @@ resource "aws_iam_policy" "example" {
     ]
   })
 }
+
+
+resource "aws_iam_instance_profile" "iam_ec2" {
+  name = "iam-instance-profile"
+
+  # Attach an IAM role to the instance profile
+  role = aws_iam_role.iam_ec2.name
+}
