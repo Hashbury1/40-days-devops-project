@@ -34,9 +34,9 @@ resource "aws_subnet" "priv_subnet" {
 # create my ec2 instance
 resource "aws_instance" "server" {
   instance_type     = "t2.micro"
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-1b"
   ami               = var.aws_ami
-  subnet_id = var.subnet_id
+  subnet_id         = var.subnet_id
 
   tags = {
     Name = "for-devops-test"
