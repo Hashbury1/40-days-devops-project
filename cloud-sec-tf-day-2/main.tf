@@ -47,3 +47,15 @@ resource "aws_instance" "server" {
   }
 }
 
+# resource "aws_flow_log" "vpc_log" {
+#   iam_role_arn          = aws_iam_role.vpc_log
+#   log_destination       = "arn:aws:logs:us-east-1:123456789012:log-group:/flow-logs"
+#   traffic_type          = "ALL"
+#   vpc_id                = aws_vpc.devops.id
+# }
+
+
+# where my VPC flow logs are being stored 
+resource "aws_cloudwatch_log_group" "cloudwatch" {
+  name = "/flow-logs" # The name of your log group
+}
