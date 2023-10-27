@@ -41,7 +41,9 @@ resource "aws_instance" "server" {
   # my iam instance profile
   iam_instance_profile = aws_iam_instance_profile.iam_ec2.name
 
+
   tags = {
     Name = "for-devops-test"
   }
 }
+
