@@ -50,7 +50,7 @@ resource "aws_instance" "server" {
 
 # created my VPC flow log 
 resource "aws_flow_log" "vpc_log" {
-  iam_role_arn    = arn:aws:iam::152918265083:role/low-log-role
+  iam_role_arn    = "arn:aws:iam::152918265083:role/low-log-role"
   log_destination = "arn:aws:logs:us-east-1:152918265083:log-group:/flow-logs:*"
   traffic_type    = "ALL"
   vpc_id          = aws_vpc.devops.id
