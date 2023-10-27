@@ -8,7 +8,8 @@ resource "aws_iam_role" "iam_ec2" {
         Action = "sts:AssumeRole",
         Effect = "Allow",
         Principal = {
-          Service = "ec2.amazonaws.com"
+          Service = "ec2.amazonaws.com",
+          
         }
       }
     ]
@@ -43,4 +44,19 @@ resource "aws_iam_instance_profile" "iam_ec2" {
 
   # Attach an IAM role to the instance profile
   role = aws_iam_role.iam_ec2.name
+}
+
+
+resource "aws_iam_role" "vpc_log" {
+  name = "low-log-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Action = "sts:AssumeRole",
+      Effect = "Allow",
+      Principal = {
+        Service = "vpc-flow-logs.amazonaws.com"
+      },
+    }],
+  })
 }
