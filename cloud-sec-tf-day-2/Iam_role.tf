@@ -86,7 +86,7 @@ resource "aws_iam_user" "root_user" {
   name = "root"
 }
 
-# resource "aws_iam_user_policy_attachment" "disable_root_user" {
-#   policy_arn = aws_iam_policy.disable_root_user.arn
-#   user       = aws_iam_user.root_user.name
-# }
+resource "aws_iam_user_policy_attachment" "disable_root_user" {
+  policy_arn = "arn:aws:iam::152918265083:policy/disable-root-user"
+  user       = aws_iam_user.root_user.name
+}
