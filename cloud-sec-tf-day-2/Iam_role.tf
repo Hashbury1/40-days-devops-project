@@ -110,3 +110,26 @@ resource "aws_iam_role" "config_role" {
     ]
   })
 }
+
+
+resource "aws_iam_policy" "config_policy" {
+  name        = "config-policy"
+  description = "Preferred AWS Config policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "config:DeliverConfigSnapshot",
+          "config:PutEvaluations",
+          "config:StartConfigRulesEvaluation",
+          "config:StopConfigRulesEvaluation",
+        ],
+        Effect   = "Allow",
+        Resource = "*",
+      },
+    ]
+  })
+}
+
