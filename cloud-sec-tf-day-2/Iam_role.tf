@@ -9,7 +9,7 @@ resource "aws_iam_role" "iam_ec2" {
         Effect = "Allow",
         Principal = {
           Service = "ec2.amazonaws.com",
-          
+
         }
       }
     ]
@@ -46,7 +46,7 @@ resource "aws_iam_instance_profile" "iam_ec2" {
   role = aws_iam_role.iam_ec2.name
 }
 
-
+# create IAM role for VPC flow log
 resource "aws_iam_role" "vpc_log" {
   name = "low-log-role"
   assume_role_policy = jsonencode({
@@ -60,3 +60,33 @@ resource "aws_iam_role" "vpc_log" {
     }],
   })
 }
+
+
+# create IAM policy to disable root user
+resource "aws_iam_policy" "disable_root_user" {
+  name        = "disable-root-user"
+  description = "Deny all actions for the root user"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Action   = "*",
+      Effect   = "Deny",
+      Resource = "*",
+      Condition = {
+        Bool = {
+          "aws:RequestTag/root" = "true"
+        }
+      }
+    }],
+  })
+}
+
+resource "aws_iam_user" "root_user" {
+  name = "root"
+}
+
+# resource "aws_iam_user_policy_attachment" "disable_root_user" {
+#   policy_arn = aws_iam_policy.disable_root_user.arn
+#   user       = aws_iam_user.root_user.name
+# }
