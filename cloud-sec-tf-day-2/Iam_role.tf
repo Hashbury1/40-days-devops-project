@@ -86,7 +86,27 @@ resource "aws_iam_user" "root_user" {
   name = "root"
 }
 
+
+#create IAM policy to disable root user
 resource "aws_iam_user_policy_attachment" "disable_root_user" {
   policy_arn = "arn:aws:iam::152918265083:policy/disable-root-user"
   user       = aws_iam_user.root_user.name
+}
+
+
+# create IAM role for confid
+resource "aws_iam_role" "config_role" {
+  name = "config-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "config.amazonaws.com"
+        }
+      }
+    ]
+  })
 }
