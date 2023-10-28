@@ -63,6 +63,18 @@ resource "aws_cloudwatch_log_group" "cloudwatch" {
 }
 
 
+# Create an AWS Config Rule
+resource "aws_config_config_rule" "rule" {
+  name = "example"
+
+  source {
+    owner             = "AWS"
+    source_identifier = "S3_BUCKET_VERSIONING_ENABLED"
+  }
+
+  depends_on = [aws_config_configuration_recorder.config_recorder]
+}
+
 # create config recorder
 resource "aws_config_configuration_recorder" "config_recorder" {
   name     = "config-recorder"
