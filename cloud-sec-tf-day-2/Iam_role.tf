@@ -112,6 +112,7 @@ resource "aws_iam_role" "config_role" {
 }
 
 
+# create IAM policy for aws config
 resource "aws_iam_policy" "config_policy" {
   name        = "config-policy"
   description = "Preferred AWS Config policy"
@@ -133,3 +134,10 @@ resource "aws_iam_policy" "config_policy" {
   })
 }
 
+
+
+# create IAM policy statement for config
+resource "aws_iam_role_policy_attachment" "config_policy_attachment" {
+  policy_arn = aws_iam_policy.config_policy.arn
+  role       = aws_iam_role.config_role.name
+}
