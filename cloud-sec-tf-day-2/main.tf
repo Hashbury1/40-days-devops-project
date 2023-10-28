@@ -69,7 +69,7 @@ resource "aws_config_config_rule" "rule" {
 
   source {
     owner             = "AWS"
-    source_identifier = "S3_BUCKET_VERSIONING_ENABLED"
+    source_identifier = "S3_BUCKET_PUBLIC_READ_PROHIBITED"
   }
 
   depends_on = [aws_config_configuration_recorder.config_recorder]
