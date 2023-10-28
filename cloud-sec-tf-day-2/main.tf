@@ -62,6 +62,12 @@ resource "aws_cloudwatch_log_group" "cloudwatch" {
   name = "/flow-logs" # The name of your log group
 }
 
+resource "aws_cloudwatch_log_metric_filter" "unauthorized_actions_filter" {
+  name           = "UnauthorizedActionsFilter"
+  pattern        = "{ ($.errorCode = 'AccessDenied') || ($.errorCode = 'UnauthorizedOperation') || ($.errorCode = 'AuthFailure') }"
+  log_group_name = aws_cloudwatch_log_group.cloudtrail.name
+}
+
 
 # Create an AWS Config Rule
 resource "aws_config_config_rule" "rule" {
@@ -80,3 +86,11 @@ resource "aws_config_configuration_recorder" "config_recorder" {
   name     = "config-recorder"
   role_arn = "arn:aws:iam::152918265083:role/config-role"
 }
+
+
+# create SNS topic for alarm
+resource "aws_sns_topic" "unauthorized_actions_topic" {
+  name = "Unauthorized"
+}
+
+
