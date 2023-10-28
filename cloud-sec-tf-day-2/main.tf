@@ -62,6 +62,8 @@ resource "aws_cloudwatch_log_group" "cloudwatch" {
   name = "/flow-logs" # The name of your log group
 }
 
+
+# create config recorder
 resource "aws_config_configuration_recorder" "config_recorder" {
   name     = "config-recorder"
   role_arn = "arn:aws:iam::152918265083:role/config-role"
