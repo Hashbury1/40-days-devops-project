@@ -25,7 +25,7 @@ resource "aws_cloudwatch_log_metric_filter" "unauthorized_actions_filter" {
 resource "aws_cloudwatch_metric_alarm" "unauthorized_actions_alarm" {
   alarm_name          = "UnauthorizedActionsAlarm"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods = 1
+  evaluation_periods  = 1
   metric_name         = "UnathorizedActions"
   namespace           = "AWS/CloudTrail"
   period              = 300
