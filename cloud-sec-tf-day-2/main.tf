@@ -77,8 +77,4 @@ resource "aws_config_configuration_recorder" "config_recorder" {
 }
 
 
-# create SNS topic for alarm
-resource "aws_sns_topic" "unauthorized_actions_topic" {
-  name = "Unauthorized"
-}
 
