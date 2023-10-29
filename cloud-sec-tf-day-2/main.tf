@@ -57,17 +57,6 @@ resource "aws_flow_log" "vpc_log" {
 }
 
 
-# where my VPC flow logs are being stored 
-resource "aws_cloudwatch_log_group" "cloudwatch" {
-  name = "/flow-logs" # The name of your log group
-}
-
-resource "aws_cloudwatch_log_metric_filter" "unauthorized_actions_filter" {
-  name           = "UnauthorizedActionsFilter"
-  pattern        = "{ ($.errorCode = 'AccessDenied') || ($.errorCode = 'UnauthorizedOperation') || ($.errorCode = 'AuthFailure') }"
-  log_group_name = aws_cloudwatch_log_group.cloudtrail.name
-}
-
 
 # Create an AWS Config Rule
 resource "aws_config_config_rule" "rule" {
@@ -92,5 +81,4 @@ resource "aws_config_configuration_recorder" "config_recorder" {
 resource "aws_sns_topic" "unauthorized_actions_topic" {
   name = "Unauthorized"
 }
-
 
