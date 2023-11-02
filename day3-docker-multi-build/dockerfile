@@ -1,25 +1,28 @@
-# Stage 1: Build the application
+# Use the official Node.js image as the builder stage
+# with BuildKit enabled (syntax=docker/dockerfile:experimental)
+# This should be the first line in your Dockerfile
+# syntax = docker/dockerfile:experimental
 FROM node:14 AS builder
 
-# Set the working directory
+# Set the working directory in the builder stage
 WORKDIR /app
 
 # Copy package.json and package-lock.json separately to leverage Docker cache
 COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies in the builder stage
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 # Copy the rest of the application code
 COPY . .
 
-# Build the application
-RUN npm run build
+# Build the application in the builder stage
+RUN --mount=type=cache,target=/root/.npm npm run build
 
-# Stage 2: Create a production image
+# Create the production stage with a smaller base image (Alpine)
 FROM node:14-alpine AS production
 
-# Set the working directory
+# Set the working directory in the production stage
 WORKDIR /app
 
 # Copy only the essential files and folders from the builder stage
@@ -27,13 +30,15 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/package-lock.json ./
 COPY --from=builder /app/dist ./dist
 
-# Install only production dependencies
-RUN npm install --only=production
+# Install only production dependencies in the production stage
+RUN --mount=type=cache,target=/root/.npm npm ci --only=production
 
-# Expose the application port
+# Expose port 3000 for the application
 EXPOSE 3000
 
-# Start the application
-CMD ["node", "dist/index.js"]
+# Create a non-root user for added security
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 
-
+# Start the application with the specified command
+CMD ["npm", "start"]
