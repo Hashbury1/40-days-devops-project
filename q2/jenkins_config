@@ -1,0 +1,21 @@
+jenkins config 
+
+
+f "%DoYouWantToStayInLagos%" == "approve" (
+  java -version
+)  
+if "%DoYouWantToStayInLagos%" =="disapprove" (
+  echo "i no want mad nah"
+)  
+
+while choosing the kinda project, go for pipeline   
+
+110fa208c8e780f50465631d1603066d96 jenkins pass code
+
+
+while using a variable always include "$env." in the beginning. 
+
+{@open#for-myblog@}
+
+sudo nano ~/.bashrc for environment variable
+
